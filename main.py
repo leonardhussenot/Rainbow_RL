@@ -11,6 +11,7 @@ from Environment import *
 from DQN_CNN import *
 from Prioritized_DQN import *
 from Double_DQN import *
+from Dueling_DQN import *
 
 import pickle 
 # parameters
@@ -179,6 +180,20 @@ if __name__=="__main__":
 	    if the.action == "validate":
 	        print('Begin validation')
 	        train_validate(agent_cnn,env,epochs_train,prefix='double_dqn')
+            
+    if the.solver == "dueling_dqn":
+	
+	    env = Environment(grid_size=size, max_time=T,temperature=0.3)
+	    agent_cnn = Dueling_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+		
+	    if the.action == "test":
+	        agent_cnn.load(name_weights='./models/dueling_dqnmodel.h5',name_model='./models/dueling_dqnmodel.json')
+	        print('Test of the network')
+	        test(agent_cnn,env,epochs_test,prefix='dueling_dqn')
+		
+	    if the.action == "validate":
+	        print('Begin validation')
+	        train_validate(agent_cnn,env,epochs_train,prefix='dueling_dqn')
 			
 		
 	
