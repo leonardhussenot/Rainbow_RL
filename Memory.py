@@ -17,13 +17,13 @@ class Memory(object):
         r = np.random.randint(0,len(self.memory))
         return self.memory[r]
 
- class Memory_prioritized(Memory):
+class Memory_prioritized(Memory):
     def __init__(self, max_memory=100):
         super(Memory_prioritized, self).__init__(max_memory=100)
         self.priority = list()
         
     def prioritised_remember(self, m, model, discount):
-    """Remember both (state, next_state, action, reward, game_over) tuple and a score associated to this training example"""
+        """Remember both (state, next_state, action, reward, game_over) tuple and a score associated to this training example"""
         s = m[0]
         n_s = m[1]
         a = m[2]
@@ -46,6 +46,6 @@ class Memory(object):
             self.priority.append(score)
     
     def prioritized_access(self):
-    """ Choose a training example with a probability proportional to its score and not randomly """
+        """ Choose a training example with a probability proportional to its score and not randomly """
         indice = np.argmax(np.random.multinomial(1, (self.priority)/np.sum(self.priority), size=1))
         return self.memory[indice]
