@@ -139,7 +139,8 @@ class Environment(object):
 
         self.x = np.random.randint(3, self.grid_size-3, size=1)[0]
         self.y = np.random.randint(3, self.grid_size-3, size=1)[0]
-
+        
+        self.trajectory = np.zeros((grid_size,grid_size))
 
         bonus = 0.5*np.random.binomial(1,self.temperature,size=self.grid_size**2)
         bonus = bonus.reshape(self.grid_size,self.grid_size)
