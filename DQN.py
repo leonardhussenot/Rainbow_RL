@@ -13,6 +13,9 @@ from keras.layers.core import Dense, Flatten
 from keras.optimizers import sgd
 from keras.layers import Conv2D, MaxPooling2D, Activation, AveragePooling2D,Reshape,BatchNormalization
 
+from Agent import *
+from Memory import *
+
 class DQN(Agent):
     def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=2):
         super(DQN, self).__init__(epsilon = epsilon)
@@ -25,7 +28,6 @@ class DQN(Agent):
         # number of state
         self.n_state = n_state
 
-        # Memory
         self.memory = Memory(memory_size)
 
         # Batch size when learning

@@ -5,6 +5,8 @@ from keras.layers.core import Dense, Flatten
 from keras.optimizers import sgd
 from keras.layers import Conv2D, MaxPooling2D, Activation, AveragePooling2D,Reshape,BatchNormalization
 
+from DQN import DQN
+from Memory import *
 
 class DQN_CNN(DQN):
     def __init__(self, *args,**kwargs):
