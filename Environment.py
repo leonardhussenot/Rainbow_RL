@@ -53,6 +53,7 @@ class Environment(object):
         #board on which one plays
         self.board = np.zeros((grid_size,grid_size))
         self.position = np.zeros((grid_size,grid_size))
+        self.trajectory = np.zeros((grid_size,grid_size))
 
         # coordinate of the cat
         self.x = 0
@@ -124,9 +125,11 @@ class Environment(object):
         self.t = self.t + 1
         reward = self.board[self.x, self.y]
         self.board[self.x, self.y] = 0
+        self.trajectory[self.x,self.y] = 1
         game_over = self.t > self.max_time
         state = np.concatenate((self.board.reshape(self.grid_size, self.grid_size,1),
-                        self.position.reshape(self.grid_size, self.grid_size,1)),axis=2)
+                        self.position.reshape(self.grid_size, self.grid_size,1),
+                        self.trajectory.reshape(self.grid_size, self.grid_size,1)),axis=2)
         state = state[self.x-2:self.x+3,self.y-2:self.y+3,:]
 
         return state, reward, game_over
@@ -161,7 +164,8 @@ class Environment(object):
 
         state = np.concatenate((
                                self.board.reshape(self.grid_size, self.grid_size,1),
-                        self.position.reshape(self.grid_size, self.grid_size,1)),axis=2)
+                        self.position.reshape(self.grid_size, self.grid_size,1),
+                        self.trajectory.reshape(self.grid_size, self.grid_size,1)),axis=2)
 
         state = state[self.x - 2:self.x + 3, self.y - 2:self.y + 3, :]
         return state

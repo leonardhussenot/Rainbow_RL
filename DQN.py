@@ -17,7 +17,7 @@ from Agent import *
 from Memory import *
 
 class DQN(Agent):
-    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=2):
+    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=3):
         super(DQN, self).__init__(epsilon = epsilon)
 
         # Discount for Q learning

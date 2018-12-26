@@ -10,7 +10,7 @@ from keras.optimizers import sgd
 from keras.layers import Conv2D, MaxPooling2D, Activation, AveragePooling2D,Reshape,BatchNormalization
 
 class Double_DQN(Agent):
-    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=2):
+    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=3):
         super(Double_DQN, self).__init__(epsilon = epsilon)
 
         # Discount for Q learning
@@ -83,9 +83,11 @@ class Double_DQN_CNN(Double_DQN):
         model = Sequential() 
 
         model.add(Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,self.n_state)))
+        model.add(Activation('relu'))
         model.add(Conv2D(16, (1,1),strides=(1,1)))
+        model.add(Activation('relu'))
         model.add(Flatten())
-        model.add(Dense(4)) 
+        model.add(Dense(4))
         model.add(Activation('tanh')) 
         
 

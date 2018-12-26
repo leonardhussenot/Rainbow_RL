@@ -20,10 +20,10 @@ from Memory import *
 
 
 def createLayers():
-    x = Input(shape=(5,5,2))
+    x = Input(shape=(5,5,3))
     
-    conv1 = Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,2))(x)
-    conv2 = Conv2D(16, (1,1),strides=(1,1))(conv1)
+    conv1 = Activation('relu')(Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,2))(x))
+    conv2 = Activation('relu')(Conv2D(16, (1,1),strides=(1,1))(conv1))
     f = Flatten()(conv2)
     y = Activation('tanh')(Dense(5)(f))      
     z = Lambda(lambda a: K.expand_dims(a[:, 0], axis=-1) + a[:, 1:] - K.mean(a[:, 1:], keepdims=True),
@@ -34,7 +34,7 @@ def createLayers():
 
 
 class Dueling_DQN(Agent):
-    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=2):
+    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=3):
         super(Dueling_DQN, self).__init__(epsilon = epsilon)
 
         # Discount for Q learning
