@@ -19,7 +19,7 @@ class DQN_CNN(DQN):
         model.add(Conv2D(16, (1,1),strides=(1,1)))
         model.add(Flatten())
         model.add(Dense(4))
-        model.add(Activation('relu'))
+        model.add(Activation('tanh'))
 
 
         model.compile(sgd(lr=0.1, decay=1e-4, momentum=0.0), "mse")

@@ -25,7 +25,7 @@ def createLayers():
     conv1 = Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,2))(x)
     conv2 = Conv2D(16, (1,1),strides=(1,1))(conv1)
     f = Flatten()(conv2)
-    y = Activation('relu')(Dense(5)(f))      
+    y = Activation('tanh')(Dense(5)(f))      
     z = Lambda(lambda a: K.expand_dims(a[:, 0], axis=-1) + a[:, 1:] - K.mean(a[:, 1:], keepdims=True),
                    output_shape=(4,))(y)
     return x, z
