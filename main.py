@@ -9,6 +9,7 @@ import json
 
 from Environment import *
 from DQN_CNN import *
+from Prioritized_DQN import *
 
 import pickle 
 # parameters
@@ -140,13 +141,28 @@ if __name__=="__main__":
 	    agent_cnn = DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 		
 	    if the.action == "test":
-	        agent_cnn.load(name_weights='./weights/dqnmodel.h5',name_model='./weights/dqnmodel.json')
+	        agent_cnn.load(name_weights='./models/dqnmodel.h5',name_model='./models/dqnmodel.json')
 	        print('Test of the network')
 	        test(agent_cnn,env,epochs_test,prefix='dqn')
 		
 	    if the.action == "validate":
 	        print('Begin validation')
 	        train_validate(agent_cnn,env,epochs_train,prefix='dqn')
+            
+            
+    if the.solver == "prioritized_dqn":
+	
+	    env = Environment(grid_size=size, max_time=T,temperature=0.3)
+	    agent_cnn = Prioritized_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+		
+	    if the.action == "test":
+	        agent_cnn.load(name_weights='./models/prioritized_dqnmodel.h5',name_model='./models/prioritized_dqnmodel.json')
+	        print('Test of the network')
+	        test(agent_cnn,env,epochs_test,prefix='prioritized_dqn')
+		
+	    if the.action == "validate":
+	        print('Begin validation')
+	        train_validate(agent_cnn,env,epochs_train,prefix='prioritized_dqn')
 			
 		
 	
