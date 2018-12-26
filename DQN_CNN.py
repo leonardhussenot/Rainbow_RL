@@ -1,3 +1,11 @@
+import keras
+import numpy as np
+from keras.models import Sequential,model_from_json
+from keras.layers.core import Dense, Flatten
+from keras.optimizers import sgd
+from keras.layers import Conv2D, MaxPooling2D, Activation, AveragePooling2D,Reshape,BatchNormalization
+
+
 class DQN_CNN(DQN):
     def __init__(self, *args,**kwargs):
         super(DQN_CNN, self).__init__(*args,**kwargs)

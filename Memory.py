@@ -1,3 +1,5 @@
+import numpy as np
+
 class Memory(object):
     def __init__(self, max_memory=100):
         self.max_memory = max_memory
@@ -12,6 +14,5 @@ class Memory(object):
 
 
     def random_access(self):
-        r=np.random.randint(0,len(self.memory))
+        r = np.random.randint(0,len(self.memory))
         return self.memory[r]
-        
