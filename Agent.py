@@ -49,5 +49,5 @@ class Agent(object):
         pass
 
     def load(self):
-        """ This function allows to restore a model"""
+        """ This function allows to restore a model from 'models' directory"""
         pass

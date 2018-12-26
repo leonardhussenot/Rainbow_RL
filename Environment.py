@@ -66,13 +66,8 @@ class Environment(object):
         self.to_draw = np.zeros((max_time+2, grid_size*self.scale, grid_size*self.scale, 3))
 
 
-    def draw(self,e, path = None):
-        if not path:
-            skvideo.io.vwrite(str(e) + '.mp4', self.to_draw)
-        else:
-            if not os.path.exists(path):
-                os.makedirs(path)
-            skvideo.io.vwrite(path+'/'+str(e) + '.mp4', self.to_draw)
+    def draw(self,e):
+        skvideo.io.vwrite('videos/'+str(e) + '.mp4', self.to_draw)
 
     def get_frame(self,t):
         b = np.zeros((self.grid_size,self.grid_size,3))+128
@@ -170,3 +165,12 @@ class Environment(object):
 
         state = state[self.x - 2:self.x + 3, self.y - 2:self.y + 3, :]
         return state
+
+
+# display videos
+def display_videos(name):
+    video = io.open('videos/'+name, 'r+b').read()
+    encoded = base64.b64encode(video)
+    return '''<video alt="test" controls>
+                <source src="data:video/mp4;base64,{0}" type="video/mp4" />
+             </video>'''.format(encoded.decode('ascii'))
