@@ -33,12 +33,12 @@ class Memory_prioritized(Memory):
         target = r if game_over else r + discount * np.amax(model.predict(np.array([n_s])))
         output = model.predict(np.array([s]))[0,a]
         
-        score = np.abs(target - output)**2
+        score = np.abs(target - output)**0.5 # L'exposant est un hyper paramètre
         
         
         if len(self.memory)<self.max_memory:
             self.memory.append(m)
-            self.priority.append(0.1+score)
+            self.priority.append(0.1+score) # La constante 0.1 est un hyper paramètre
         else:
             self.memory=self.memory[1:]
             self.priority = self.priority[1:]

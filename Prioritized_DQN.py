@@ -30,7 +30,7 @@ class Prioritized_DQN(Agent):
         prediction=self.model.predict(np.array([s,]))
         return np.argmax(prediction)
 
-    def reinforce(self, s_, n_s_, a_, r_, game_over_):
+    def reinforce(self, s_, n_s_, a_, r_, game_over_, epoch_):
         # Two steps: first memorize the states, second learn from the pool
 	
         self.memory.prioritised_remember([s_, n_s_, a_, r_, game_over_], self.model, self.discount)
@@ -58,14 +58,14 @@ class Prioritized_DQN(Agent):
 
 
     def save(self,name_weights='model.h5',name_model='model.json'):
-        self.model.save_weights(name_weights, overwrite=True)
-        with open(name_model, "w") as outfile:
+        self.model.save_weights('models/'+name_weights, overwrite=True)
+        with open('models/'+name_model, "w") as outfile:
             json.dump(self.model.to_json(), outfile)
-            
+
     def load(self,name_weights='model.h5',name_model='model.json'):
-        with open(name_model, "r") as jfile:
+        with open('models/'+name_model, "r") as jfile:
             model = model_from_json(json.load(jfile))
-        model.load_weights(name_weights)
+        model.load_weights('models'+name_weights)
         model.compile("sgd", "mse")
         self.model = model
 

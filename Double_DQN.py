@@ -1,35 +1,29 @@
-import keras
-import numpy as np
-import io
-import base64
-from IPython.display import HTML
-import skvideo.io
-import cv2
-import json
-import os
+from Environment import *
+from Memory import *
+from Agent import *
 
-from keras.models import Sequential,model_from_json
+import json
+import numpy as np
+from keras.models import Sequential,model_from_json, clone_model
 from keras.layers.core import Dense, Flatten
 from keras.optimizers import sgd
 from keras.layers import Conv2D, MaxPooling2D, Activation, AveragePooling2D,Reshape,BatchNormalization
 
-from Agent import *
-from Memory import *
-
-class DQN(Agent):
+class Double_DQN(Agent):
     def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=2):
-        super(DQN, self).__init__(epsilon = epsilon)
+        super(Double_DQN, self).__init__(epsilon = epsilon)
 
         # Discount for Q learning
         self.discount = 0.9
-
+        
         self.grid_size = grid_size
-
+        
         # number of state
         self.n_state = n_state
 
+        # Memory
         self.memory = Memory(memory_size)
-
+        
         # Batch size when learning
         self.batch_size = batch_size
 
@@ -41,10 +35,13 @@ class DQN(Agent):
         # Two steps: first memorize the states, second learn from the pool
 
         self.memory.remember([s_, n_s_, a_, r_, game_over_])
-
+        
         input_states = np.zeros((self.batch_size, 5,5,self.n_state))
         target_q = np.zeros((self.batch_size, 4))
-
+        
+        if (epoch_ % 3 == 0) : # La fréquence de mise à jour des poids est un hyper paramètre 
+            self.target_model.set_weights(self.model.get_weights())
+			
         for i in range(self.batch_size):
             ######## FILL IN
             [s_batch, n_s_batch, a_batch, r_batch, game_over_batch] = self.memory.random_access()
@@ -55,8 +52,9 @@ class DQN(Agent):
                 target_q[i, a_batch] = r_batch
             else:
                 ######## FILL IN
-                prediction = self.model.predict(np.array([n_s_batch]))
-                target_q[i, a_batch] = r_batch + self.discount * np.amax(prediction)
+                prediction_target = self.target_model.predict(np.array([n_s_batch]))
+                prediction_online = self.model.predict(np.array([n_s_batch]))
+                target_q[i, a_batch] = r_batch + self.discount * prediction_target[0,np.argmax(prediction_online)]
         ######## FILL IN
         # HINT: Clip the target to avoid exploiding gradients.. -- clipping is a bit tighter
         target_q = np.clip(target_q, -3, 3)
@@ -75,3 +73,22 @@ class DQN(Agent):
         model.load_weights('models'+name_weights)
         model.compile("sgd", "mse")
         self.model = model
+
+            		
+class Double_DQN_CNN(Double_DQN):
+    def __init__(self, *args,**kwargs):
+        super(Double_DQN_CNN, self).__init__(*args,**kwargs)
+        
+        ###### FILL IN
+        model = Sequential() 
+
+        model.add(Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,self.n_state)))
+        model.add(Conv2D(16, (1,1),strides=(1,1)))
+        model.add(Flatten())
+        model.add(Dense(4)) 
+        model.add(Activation('relu')) 
+        
+
+        model.compile(sgd(lr=0.01, decay=1e-4, momentum=0.0), "mse")
+        self.model = model
+        self.target_model=clone_model(self.model)

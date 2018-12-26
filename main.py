@@ -10,6 +10,7 @@ import json
 from Environment import *
 from DQN_CNN import *
 from Prioritized_DQN import *
+from Double_DQN import *
 
 import pickle 
 # parameters
@@ -100,7 +101,7 @@ def train_validate(agent,env,epoch,prefix='', validation = True):
                 lose = lose -reward
 
             # Apply the reinforcement strategy
-            loss = agent.reinforce(prev_state, state,  action, reward, game_over)
+            loss = agent.reinforce(prev_state, state,  action, reward, game_over, e)
 
         # Save as a mp4
         if e % 10 == 0:
@@ -163,6 +164,21 @@ if __name__=="__main__":
 	    if the.action == "validate":
 	        print('Begin validation')
 	        train_validate(agent_cnn,env,epochs_train,prefix='prioritized_dqn')
+            
+            
+    if the.solver == "double_dqn":
+	
+	    env = Environment(grid_size=size, max_time=T,temperature=0.3)
+	    agent_cnn = Double_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+		
+	    if the.action == "test":
+	        agent_cnn.load(name_weights='./models/double_dqnmodel.h5',name_model='./models/double_dqnmodel.json')
+	        print('Test of the network')
+	        test(agent_cnn,env,epochs_test,prefix='double_dqn')
+		
+	    if the.action == "validate":
+	        print('Begin validation')
+	        train_validate(agent_cnn,env,epochs_train,prefix='double_dqn')
 			
 		
 	
