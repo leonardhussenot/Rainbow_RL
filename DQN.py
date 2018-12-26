@@ -65,13 +65,13 @@ class DQN(Agent):
 
 
     def save(self,name_weights='model.h5',name_model='model.json'):
-        self.model.save_weights(name_weights, overwrite=True)
+        self.model.save_weights('models/'+name_weights, overwrite=True)
         with open('models/'+name_model, "w") as outfile:
             json.dump(self.model.to_json(), outfile)
 
     def load(self,name_weights='model.h5',name_model='model.json'):
         with open('models/'+name_model, "r") as jfile:
             model = model_from_json(json.load(jfile))
-        model.load_weights(name_weights)
+        model.load_weights('models'+name_weights)
         model.compile("sgd", "mse")
         self.model = model
