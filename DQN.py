@@ -17,7 +17,7 @@ from Agent import *
 from Memory import *
 
 class DQN(Agent):
-    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=3):
+    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16, n_state=3):
         super(DQN, self).__init__(epsilon = epsilon)
 
         # Discount for Q learning
@@ -34,7 +34,7 @@ class DQN(Agent):
         self.batch_size = batch_size
 
     def learned_act(self, s):
-        prediction=self.model.predict(np.array([s,]))
+        prediction = self.model.predict(np.array([s,]))
         return np.argmax(prediction)
 
     def reinforce(self, s_, n_s_, a_, r_, game_over_, epoch_):

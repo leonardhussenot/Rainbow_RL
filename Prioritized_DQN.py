@@ -1,5 +1,5 @@
 from Environment import *
-from Memory import * 
+from Memory import *
 from Agent import *
 
 import json
@@ -15,29 +15,32 @@ class Prioritized_DQN(Agent):
 
         # Discount for Q learning
         self.discount = 0.9
-        
+
         self.grid_size = grid_size
-        
+
         self.memory_size = memory_size
-        
+
+        # Memory
+        self.memory = Memory_prioritized(self.memory_size)
+
         # number of state
         self.n_state = n_state
-        
+
         # Batch size when learning
         self.batch_size = batch_size
 
     def learned_act(self, s):
-        prediction=self.model.predict(np.array([s,]))
+        prediction = self.model.predict(np.array([s,]))
         return np.argmax(prediction)
 
     def reinforce(self, s_, n_s_, a_, r_, game_over_, epoch_):
         # Two steps: first memorize the states, second learn from the pool
-	
+
         self.memory.prioritised_remember([s_, n_s_, a_, r_, game_over_], self.model, self.discount)
-        
+
         input_states = np.zeros((self.batch_size, 5,5,self.n_state))
         target_q = np.zeros((self.batch_size, 4))
-			
+
         for i in range(self.batch_size):
             ######## FILL IN
             [s_batch, n_s_batch, a_batch, r_batch, game_over_batch] = self.memory.prioritized_access()
@@ -69,14 +72,14 @@ class Prioritized_DQN(Agent):
         model.compile("sgd", "mse")
         self.model = model
 
-            
-	
+
+
 class Prioritized_DQN_CNN(Prioritized_DQN):
     def __init__(self, *args,**kwargs):
         super(Prioritized_DQN_CNN, self).__init__(*args,**kwargs)
-        
+
         ###### FILL IN
-        model = Sequential() 
+        model = Sequential()
 
         model.add(Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,self.n_state)))
         model.add(Activation('relu'))
@@ -85,10 +88,7 @@ class Prioritized_DQN_CNN(Prioritized_DQN):
         model.add(Flatten())
         model.add(Dense(4))
         model.add(Activation('tanh'))
-        
+
 
         model.compile(sgd(lr=0.01, decay=1e-4, momentum=0.0), "mse")
         self.model = model
-        
-        # Memory
-        self.memory = Memory_prioritized(self.memory_size)

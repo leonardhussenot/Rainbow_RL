@@ -13,10 +13,10 @@ class Agent(object):
         self.epsilon = epsilon
         self.n_action = n_action
 
-    def set_epsilon(self,e):
+    def set_epsilon(self, e):
         self.epsilon = e
 
-    def act(self,s,train=True):
+    def act(self, s, train=True):
         """ This function should return the next action to do:
         an integer between 0 and 4 (not included) with a random exploration of epsilon"""
         if train:
