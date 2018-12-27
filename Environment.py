@@ -139,13 +139,13 @@ class Environment(object):
 
         self.x = np.random.randint(3, self.grid_size-3, size=1)[0]
         self.y = np.random.randint(3, self.grid_size-3, size=1)[0]
-        
+
         self.trajectory = np.zeros((self.grid_size,self.grid_size))
 
-        bonus = 0.5*np.random.binomial(1,self.temperature,size=self.grid_size**2)
+        bonus = 0.5 * np.random.binomial(1,self.temperature,size=self.grid_size**2)
         bonus = bonus.reshape(self.grid_size,self.grid_size)
 
-        malus = -1.0*np.random.binomial(1,self.temperature,size=self.grid_size**2)
+        malus = -1.0 * np.random.binomial(1,self.temperature,size=self.grid_size**2)
         malus = malus.reshape(self.grid_size, self.grid_size)
 
         self.to_draw = np.zeros((self.max_time+2, self.grid_size*self.scale, self.grid_size*self.scale, 3))
@@ -163,7 +163,7 @@ class Environment(object):
         self.board[self.x,self.y] = 0
         self.t = 0
 
-        state = np.concatenate((
+        global_state = np.concatenate((
                                self.board.reshape(self.grid_size, self.grid_size,1),
                         self.position.reshape(self.grid_size, self.grid_size,1),
                         self.trajectory.reshape(self.grid_size, self.grid_size,1)),axis=2)
