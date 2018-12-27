@@ -17,9 +17,9 @@ class Memory(object):
         r = np.random.randint(0,len(self.memory))
         return self.memory[r]
 
-class Memory_prioritized(Memory, omega=0.5):
-    def __init__(self, max_memory=100):
-        super(Memory_prioritized, self).__init__(max_memory=100)
+class Memory_prioritized(Memory):
+    def __init__(self, max_memory=100, omega=0.5):
+        super(Memory_prioritized, self).__init__(max_memory=100, omega=0.5)
         self.priority = list()
         self.omega = omega
 
