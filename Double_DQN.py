@@ -29,7 +29,7 @@ class Double_DQN(Agent):
 
     def learned_act(self, s):
         ## TODO : vérifier que c'est bien ça mais le prof l'avait dit il me semble
-        prediction = .5*(self.model1.predict(np.array([s,])) + self.model2.predict(np.array([s,])))
+        prediction = self.model.predict(np.array([s,]))
         return np.argmax(prediction)
 
     def reinforce(self, s_, n_s_, a_, r_, game_over_, epoch_):
@@ -49,7 +49,7 @@ class Double_DQN(Agent):
             ######## FILL IN
             [s_batch, n_s_batch, a_batch, r_batch, game_over_batch] = self.memory.random_access()
             input_states[i] = s_batch
-            target_q[i] = .5*( self.model1.predict(np.array([s_batch])) + self.model2.predict(np.array([s_batch])) )
+            target_q[i] = self.model.predict(np.array([s_batch]))
             if game_over_:
                 ######## FILL IN
                 target_q[i, a_batch] = r_batch
@@ -58,10 +58,10 @@ class Double_DQN(Agent):
                 ## PROPOSITION CHANGEMENT
 
                 if zero_one == 0:
-                    prediction1 = self.model1.predict(np.array([n_s_batch]))
+                    prediction1 = self.model.predict(np.array([n_s_batch]))
                     prediction2 = self.model2.predict(np.array([n_s_batch]))
                 else:
-                    prediction2 = self.model1.predict(np.array([n_s_batch]))
+                    prediction2 = self.model.predict(np.array([n_s_batch]))
                     prediction1 = self.model2.predict(np.array([n_s_batch]))
 
 
@@ -70,9 +70,12 @@ class Double_DQN(Agent):
         # HINT: Clip the target to avoid exploiding gradients.. -- clipping is a bit tighter
         target_q = np.clip(target_q, -3, 3)
         if zero_one == 0:
-            l = self.model1.train_on_batch(input_states, target_q)
+            l = self.model.train_on_batch(input_states, target_q)
         else:
             l = self.model2.train_on_batch(input_states, target_q)
+
+
+
         return l
 
 
@@ -106,5 +109,5 @@ class Double_DQN_CNN(Double_DQN):
 
 
         model.compile(sgd(lr=0.01, decay=1e-4, momentum=0.0), "mse")
-        self.model1 = model
-        self.model2 = clone_model(self.model1)
+        self.model = model
+        self.model2 = clone_model(self.model)
