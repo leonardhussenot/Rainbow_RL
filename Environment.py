@@ -168,7 +168,7 @@ class Environment(object):
                         self.position.reshape(self.grid_size, self.grid_size,1),
                         self.trajectory.reshape(self.grid_size, self.grid_size,1)),axis=2)
 
-        state = state[self.x - 2:self.x + 3, self.y - 2:self.y + 3, :]
+        state = global_state[self.x - 2:self.x + 3, self.y - 2:self.y + 3, :]
         return state
 
 
