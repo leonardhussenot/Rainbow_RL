@@ -10,11 +10,11 @@ from keras.optimizers import sgd
 from keras.layers import Conv2D, MaxPooling2D, Activation, AveragePooling2D,Reshape,BatchNormalization
 
 class Prioritized_DQN(Agent):
-    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=3):
+    def __init__(self, grid_size, discount = 0.9, epsilon = 0.1, memory_size=100, batch_size = 16,n_state=3):
         super(Prioritized_DQN, self).__init__(epsilon = epsilon)
 
         # Discount for Q learning
-        self.discount = 0.9
+        self.discount = discount
 
         self.grid_size = grid_size
 
