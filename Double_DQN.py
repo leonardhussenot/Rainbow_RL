@@ -28,7 +28,8 @@ class Double_DQN(Agent):
         self.batch_size = batch_size
 
     def learned_act(self, s):
-        prediction=self.model.predict(np.array([s,]))
+        ## TODO : vérifier que c'est bien ça mais le prof l'avait dit il me semble
+        prediction = .5*(self.model1.predict(np.array([s,])) + self.model2.predict(np.array([s,])))
         return np.argmax(prediction)
 
     def reinforce(self, s_, n_s_, a_, r_, game_over_, epoch_):
@@ -39,26 +40,39 @@ class Double_DQN(Agent):
         input_states = np.zeros((self.batch_size, 5,5,self.n_state))
         target_q = np.zeros((self.batch_size, 4))
 
-        if (epoch_ % 3 == 0) : # La fréquence de mise à jour des poids est un hyper paramètre
-            self.target_model.set_weights(self.model.get_weights())
+        ## PROPOSITION CHANGEMENT LÉONARD
+        #if (epoch_ % 3 == 0) : # La fréquence de mise à jour des poids est un hyper paramètre
+        #    self.target_model.set_weights(self.model.get_weights())
+        zero_one = np.random.randint(2)
 
         for i in range(self.batch_size):
             ######## FILL IN
             [s_batch, n_s_batch, a_batch, r_batch, game_over_batch] = self.memory.random_access()
             input_states[i] = s_batch
-            target_q[i] = self.model.predict(np.array([s_batch]))
+            target_q[i] = .5*( self.model1.predict(np.array([s_batch])) + self.model2.predict(np.array([s_batch])) )
             if game_over_:
                 ######## FILL IN
                 target_q[i, a_batch] = r_batch
             else:
                 ######## FILL IN
-                prediction_target = self.target_model.predict(np.array([n_s_batch]))
-                prediction_online = self.model.predict(np.array([n_s_batch]))
-                target_q[i, a_batch] = r_batch + self.discount * prediction_target[0,np.argmax(prediction_online)]
+                ## PROPOSITION CHANGEMENT
+
+                if zero_one == 0:
+                    prediction1 = self.model1.predict(np.array([n_s_batch]))
+                    prediction2 = self.model2.predict(np.array([n_s_batch]))
+                else:
+                    prediction2 = self.model1.predict(np.array([n_s_batch]))
+                    prediction1 = self.model2.predict(np.array([n_s_batch]))
+
+
+                target_q[i, a_batch] = r_batch + self.discount * (prediction1.ravel())[np.argmax(prediction2)]
         ######## FILL IN
         # HINT: Clip the target to avoid exploiding gradients.. -- clipping is a bit tighter
         target_q = np.clip(target_q, -3, 3)
-        l = self.model.train_on_batch(input_states, target_q)
+        if zero_one == 0:
+            l = self.model1.train_on_batch(input_states, target_q)
+        else:
+            l = self.model2.train_on_batch(input_states, target_q)
         return l
 
 
@@ -92,5 +106,5 @@ class Double_DQN_CNN(Double_DQN):
 
 
         model.compile(sgd(lr=0.01, decay=1e-4, momentum=0.0), "mse")
-        self.model = model
-        self.target_model=clone_model(self.model)
+        self.model1 = model
+        self.model2 = clone_model(self.model1)
