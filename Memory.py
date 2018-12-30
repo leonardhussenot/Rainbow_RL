@@ -19,7 +19,7 @@ class Memory(object):
 
 class Memory_prioritized(Memory):
     def __init__(self, max_memory=100, omega=0.5):
-        super(Memory_prioritized, self).__init__(max_memory=100, omega=0.5)
+        super(Memory_prioritized, self).__init__(max_memory=100)
         self.priority = list()
         self.omega = omega
 
@@ -36,7 +36,7 @@ class Memory_prioritized(Memory):
 
         score = np.abs(target - output) ** self.omega # L'exposant est un hyper paramètre
 
-        assert(len(priority) == len(memory))
+        assert(len(self.priority) == len(self.memory))
 
         if len(self.memory) < self.max_memory:
             self.memory.append(m)

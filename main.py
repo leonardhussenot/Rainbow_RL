@@ -70,6 +70,8 @@ def train_validate(agent,env,epoch,prefix='', validation = True):
     # Number of won games
     score = 0
     loss = 0
+    
+    validation_list = []
 
     for e in range(epoch):
         # At each epoch, we restart to a fresh game and get the initial state
@@ -79,8 +81,6 @@ def train_validate(agent,env,epoch,prefix='', validation = True):
 
         win = 0
         lose = 0
-
-        validation_list = []
 
         if (e % 10 == 0) and validation == True :
             validation_list.append(test(agent,env,10,prefix))

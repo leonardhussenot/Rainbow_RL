@@ -6,7 +6,7 @@ import json
 import numpy as np
 from keras.models import Sequential,model_from_json, clone_model
 from keras.layers.core import Dense, Flatten
-from keras.optimizers import sgd
+from keras.optimizers import sgd, Adam
 from keras.layers import Conv2D, MaxPooling2D, Activation, AveragePooling2D,Reshape,BatchNormalization
 
 class Double_DQN(Agent):
@@ -49,7 +49,12 @@ class Double_DQN(Agent):
             ######## FILL IN
             [s_batch, n_s_batch, a_batch, r_batch, game_over_batch] = self.memory.random_access()
             input_states[i] = s_batch
-            target_q[i] = self.model.predict(np.array([s_batch]))
+            
+            if zero_one == 0:
+                target_q[i] = self.model.predict(np.array([s_batch]))
+            else :
+                target_q[i] = self.model2.predict(np.array([s_batch]))
+                
             if game_over_:
                 ######## FILL IN
                 target_q[i, a_batch] = r_batch
@@ -65,7 +70,7 @@ class Double_DQN(Agent):
                     prediction1 = self.model2.predict(np.array([n_s_batch]))
 
 
-                target_q[i, a_batch] = r_batch + self.discount * (prediction1.ravel())[np.argmax(prediction2)]
+                target_q[i, a_batch] = r_batch + self.discount * (prediction2.ravel())[np.argmax(prediction1)]
         ######## FILL IN
         # HINT: Clip the target to avoid exploiding gradients.. -- clipping is a bit tighter
         target_q = np.clip(target_q, -3, 3)
@@ -108,6 +113,8 @@ class Double_DQN_CNN(Double_DQN):
         model.add(Activation('tanh'))
 
 
-        model.compile(sgd(lr=0.01, decay=1e-4, momentum=0.0), "mse")
+        model.compile(sgd(lr=0.1, decay=1e-4, momentum=0.0), "mse")
         self.model = model
         self.model2 = clone_model(self.model)
+        self.model2.compile(sgd(lr=0.1, decay=1e-4, momentum=0.0), "mse")
+        self.model2.set_weights(self.model.get_weights())

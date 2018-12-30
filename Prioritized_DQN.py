@@ -6,7 +6,7 @@ import json
 import numpy as np
 from keras.models import Sequential,model_from_json, clone_model
 from keras.layers.core import Dense, Flatten
-from keras.optimizers import sgd
+from keras.optimizers import sgd, Adam
 from keras.layers import Conv2D, MaxPooling2D, Activation, AveragePooling2D,Reshape,BatchNormalization
 
 class Prioritized_DQN(Agent):
@@ -21,7 +21,7 @@ class Prioritized_DQN(Agent):
         self.memory_size = memory_size
 
         # Memory
-        self.memory = Memory_prioritized(self.memory_size)
+        self.memory = Memory_prioritized(self.memory_size, omega=0.5)
 
         # number of state
         self.n_state = n_state
@@ -90,5 +90,6 @@ class Prioritized_DQN_CNN(Prioritized_DQN):
         model.add(Activation('tanh'))
 
 
-        model.compile(sgd(lr=0.01, decay=1e-4, momentum=0.0), "mse")
+        model.compile(sgd(lr=0.1, decay=1e-4, momentum=0.0), "mse")
+        #model.compile(Adam(lr=0.1, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False), "mse")
         self.model = model
