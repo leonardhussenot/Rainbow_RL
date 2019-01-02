@@ -16,13 +16,17 @@ with open("./models/double_dqn",'rb') as file:
 
 with open("./models/prioritized_dqn",'rb') as file:
     prioritized_dqn = pickle.load(file)
+    
+with open("./models/human",'rb') as file:
+    human = pickle.load(file)
 
-legends=['dqn','prioritized_dqn','double_dqn','dueling_dqn']
+legends=['dqn','prioritized_dqn','double_dqn','dueling_dqn','human']
 
 plt.plot(dqn)
 plt.plot(prioritized_dqn)
 plt.plot(double_dqn)
 plt.plot(dueling_dqn)
+plt.plot(human)
 
 plt.legend(legends)
 

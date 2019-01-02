@@ -10,7 +10,7 @@ import os
 
 from keras.models import Sequential,model_from_json
 from keras.layers.core import Dense, Flatten
-from keras.optimizers import sgd, Adam
+from keras.optimizers import sgd
 from keras.layers import Conv2D, MaxPooling2D, Activation, AveragePooling2D,Reshape,BatchNormalization
 
 from Agent import *

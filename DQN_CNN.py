@@ -24,6 +24,6 @@ class DQN_CNN(DQN):
         model.add(Activation('tanh'))
 
 
-        #model.compile(sgd(lr=0.1, decay=1e-4, momentum=0.0), "mse")
-        model.compile(Adam(lr=0.1, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False), "mse")
+        model.compile(sgd(lr=0.1, decay=1e-4, momentum=0.0), "mse")
+        #model.compile(Adam(lr=0.1, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False), "mse")
         self.model = model

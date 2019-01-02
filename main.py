@@ -12,6 +12,7 @@ from DQN_CNN import *
 from Prioritized_DQN import *
 from Double_DQN import *
 from Dueling_DQN import *
+from Human import *
 
 import pickle
 # parameters
@@ -38,7 +39,7 @@ def test(agent,env,epochs,prefix=''):
 
         while not game_over:
         # The agent performs an action
-            action = agent.act(state)
+            action = agent.act(state,train=False)
 
         # Apply an action to the environment, get the next state, the reward
         # and if the games end
@@ -194,3 +195,17 @@ if __name__=="__main__":
 	    if the.action == "validate":
 	        print('Begin validation')
 	        train_validate(agent_cnn,env,epochs_train,prefix='dueling_dqn')
+            
+            
+    if the.solver == "human":
+
+	    env = Environment(grid_size=size, max_time=T,temperature=0.3)
+	    agent_cnn = Human(size, epsilon = 0.1)
+
+	    if the.action == "test":
+	        print('Test of the network')
+	        test(agent_cnn,env,epochs_test,prefix='human')
+
+	    if the.action == "validate":
+	        print('Begin validation')
+	        train_validate(agent_cnn,env,epochs_train,prefix='human')

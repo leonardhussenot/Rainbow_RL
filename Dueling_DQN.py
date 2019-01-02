@@ -101,6 +101,6 @@ class Dueling_DQN_CNN(Dueling_DQN):
         model = Model(input=x, output=z)
 
 
-        model.compile(sgd(lr=0.3, decay=1e-4, momentum=0.0), "mse")
+        model.compile(sgd(lr=0.1, decay=1e-4, momentum=0.0), "mse")
         #model.compile(Adam(lr=0.5, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False), "mse")
         self.model = model
