@@ -67,11 +67,11 @@ def test(agent,env,epochs,prefix=''):
     return score/epochs
 
 
-def train_validate(agent,env,epoch,prefix='', validation = True):
+def train_validate(agent, env, epoch, prefix='', validation = True):
     # Number of won games
     score = 0
     loss = 0
-    
+
     validation_list = []
 
     for e in range(epoch):
@@ -100,7 +100,7 @@ def train_validate(agent,env,epoch,prefix='', validation = True):
             if reward > 0:
                 win = win + reward
             if reward < 0:
-                lose = lose -reward
+                lose = lose - reward
 
             # Apply the reinforcement strategy
             loss = agent.reinforce(prev_state, state,  action, reward, game_over, e)
@@ -110,7 +110,7 @@ def train_validate(agent,env,epoch,prefix='', validation = True):
             env.draw(prefix+str(e))
 
         # Update stats
-        score += win-lose
+        score += win - lose
 
         print("Epoch {:03d}/{:03d} | Loss {:.4f} | Win/lose count {}/{} ({})"
               .format(e, epoch, loss, win, lose, win-lose))
@@ -195,8 +195,8 @@ if __name__=="__main__":
 	    if the.action == "validate":
 	        print('Begin validation')
 	        train_validate(agent_cnn,env,epochs_train,prefix='dueling_dqn')
-            
-            
+
+
     if the.solver == "human":
 
 	    env = Environment(grid_size=size, max_time=T,temperature=0.3)
