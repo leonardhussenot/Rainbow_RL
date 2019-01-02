@@ -51,12 +51,16 @@ class Multistep_DQN(Agent):
         self.current_r_sum += r_
         self.time_step += 1
 
-        if self.time_step == self.n:
+        if self.time_step == self.n or game_over:
+
+            multistep_reinforce(self, self.first_state,
+                                n_s_, self.first_action, game_over_,
+                                epoch_, time_step=self.time_step)
             self.time_step = 0
-            multistep_reinforce(self, self.first_state, n_s_, self.first_action, game_over_, epoch_)
 
 
-    def multistep_reinforce(self, s_, n_s_, a_, r_, game_over_, epoch_):
+
+    def multistep_reinforce(self, s_, n_s_, a_, r_, game_over_, epoch_, time_step = self.n):
 
         # Two steps: first memorize the states, second learn from the pool
         self.memory.remember([s_, n_s_, a_, r_, game_over_])
@@ -75,7 +79,7 @@ class Multistep_DQN(Agent):
             else:
                 ######## FILL IN
                 prediction = self.model.predict(np.array([n_s_batch]))
-                target_q[i, a_batch] = r_batch + (self.discount ** self.n) * np.amax(prediction)
+                target_q[i, a_batch] = r_batch + (self.discount ** time_step) * np.amax(prediction)
         ######## FILL IN
         # HINT: Clip the target to avoid exploiding gradients.. -- clipping is a bit tighter
         target_q = np.clip(target_q, -3, 3)
