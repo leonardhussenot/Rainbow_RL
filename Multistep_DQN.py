@@ -50,15 +50,15 @@ class Multistep_DQN(Agent):
 
         self.current_r_sum += r_
         self.time_step += 1
-
+        l = 0
         if self.time_step == self.n or game_over_:
 
-            self.multistep_reinforce(self.first_state,
+            l = self.multistep_reinforce(self.first_state,
                                 n_s_, self.first_action,
                                 self.current_r_sum, game_over_,
                                 epoch_, time_step=self.time_step)
             self.time_step = 0
-
+        return l
 
     def multistep_reinforce(self, s_, n_s_, a_, r_, game_over_, epoch_, time_step):
 
