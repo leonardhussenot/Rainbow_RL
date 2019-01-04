@@ -13,6 +13,7 @@ from Prioritized_DQN import *
 from Double_DQN import *
 from Dueling_DQN import *
 from Multistep_DQN import *
+from Distributional_DQN import *
 from Human import *
 
 import pickle
@@ -20,8 +21,8 @@ import pickle
 size = 13
 T = 500
 temperature = 0.3
-epochs_train = 101 # set small when debugging
-epochs_test = 10 # set small when debugging
+epochs_train = 30 # set small when debugging
+epochs_test = 1 # set small when debugging
 
 
 def test(agent,env,epochs,prefix=''):
@@ -85,7 +86,7 @@ def train_validate(agent, env, epoch, prefix='', validation = True):
         lose = 0
 
         if (e % 10 == 0) and validation == True :
-            validation_list.append(test(agent,env,10,prefix))
+            validation_list.append(test(agent,env,epochs_test,prefix))
 
 
         while not game_over:
@@ -141,85 +142,104 @@ if __name__=="__main__":
 
     if the.solver == "dqn":
 
-	    env = Environment(grid_size=size, max_time=T, temperature=0.3)
-	    agent_cnn = DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3)
+        agent_cnn = DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
-	    if the.action == "test":
-	        agent_cnn.load(name_weights='./models/dqnmodel.h5',name_model='./models/dqnmodel.json')
-	        print('Test of the network')
-	        test(agent_cnn,env,epochs_test,prefix='dqn')
+        if the.action == "test":
+            agent_cnn.load(name_weights='./models/dqnmodel.h5',name_model='./models/dqnmodel.json')
+            print('Test of the network')
+            test(agent_cnn,env,epochs_test,prefix='dqn')
 
-	    if the.action == "validate":
-	        print('Begin validation')
-	        train_validate(agent_cnn,env,epochs_train,prefix='dqn')
+        if the.action == "validate":
+            print('Begin validation')
+            train_validate(agent_cnn,env,epochs_train,prefix='dqn')
 
 
     if the.solver == "prioritized_dqn":
 
-	    env = Environment(grid_size=size, max_time=T, temperature=0.3)
-	    agent_cnn = Prioritized_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3)
+        agent_cnn = Prioritized_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
-	    if the.action == "test":
-	        agent_cnn.load(name_weights='./models/prioritized_dqnmodel.h5',name_model='./models/prioritized_dqnmodel.json')
-	        print('Test of the network')
-	        test(agent_cnn,env,epochs_test,prefix='prioritized_dqn')
+        if the.action == "test":
+            agent_cnn.load(name_weights='./models/prioritized_dqnmodel.h5',name_model='./models/prioritized_dqnmodel.json')
+            print('Test of the network')
+            test(agent_cnn,env,epochs_test,prefix='prioritized_dqn')
 
-	    if the.action == "validate":
-	        print('Begin validation')
-	        train_validate(agent_cnn,env,epochs_train,prefix='prioritized_dqn')
+        if the.action == "validate":
+            print('Begin validation')
+            train_validate(agent_cnn,env,epochs_train,prefix='prioritized_dqn')
 
 
     if the.solver == "double_dqn":
 
-	    env = Environment(grid_size=size, max_time=T,temperature=0.3)
-	    agent_cnn = Double_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        agent_cnn = Double_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
-	    if the.action == "test":
-	        agent_cnn.load(name_weights='./models/double_dqnmodel.h5',name_model='./models/double_dqnmodel.json')
-	        print('Test of the network')
-	        test(agent_cnn,env,epochs_test,prefix='double_dqn')
+        if the.action == "test":
+            agent_cnn.load(name_weights='./models/double_dqnmodel.h5',name_model='./models/double_dqnmodel.json')
+            print('Test of the network')
+            test(agent_cnn,env,epochs_test,prefix='double_dqn')
 
-	    if the.action == "validate":
-	        print('Begin validation')
-	        train_validate(agent_cnn,env,epochs_train,prefix='double_dqn')
+        if the.action == "validate":
+            print('Begin validation')
+            train_validate(agent_cnn,env,epochs_train,prefix='double_dqn')
 
     if the.solver == "dueling_dqn":
 
-	    env = Environment(grid_size=size, max_time=T,temperature=0.3)
-	    agent_cnn = Dueling_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        agent_cnn = Dueling_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
-	    if the.action == "test":
-	        agent_cnn.load(name_weights='./models/dueling_dqnmodel.h5',name_model='./models/dueling_dqnmodel.json')
-	        print('Test of the network')
-	        test(agent_cnn,env,epochs_test,prefix='dueling_dqn')
+        if the.action == "test":
+            agent_cnn.load(name_weights='./models/dueling_dqnmodel.h5',name_model='./models/dueling_dqnmodel.json')
+            print('Test of the network')
+            test(agent_cnn,env,epochs_test,prefix='dueling_dqn')
 
-	    if the.action == "validate":
-	        print('Begin validation')
-	        train_validate(agent_cnn,env,epochs_train,prefix='dueling_dqn')
+        if the.action == "validate":
+            print('Begin validation')
+            train_validate(agent_cnn,env,epochs_train,prefix='dueling_dqn')
 
     if the.solver == "multistep_dqn":
 
-	    env = Environment(grid_size=size, max_time=T,temperature=0.3)
-	    agent_cnn = Multistep_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        agent_cnn = Multistep_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
-	    if the.action == "test":
-	        agent_cnn.load(name_weights='./models/multistep_dqnmodel.h5',name_model='./models/multistep_dqnmodel.json')
-	        print('Test of the network')
-	        test(agent_cnn,env,epochs_test,prefix='multistep_dqn')
+        if the.action == "test":
+            agent_cnn.load(name_weights='./models/multistep_dqnmodel.h5',name_model='./models/multistep_dqnmodel.json')
+            print('Test of the network')
+            test(agent_cnn,env,epochs_test,prefix='multistep_dqn')
 
-	    if the.action == "validate":
-	        print('Begin validation')
-	        train_validate(agent_cnn,env,epochs_train,prefix='multistep_dqn')
+        if the.action == "validate":
+            print('Begin validation')
+            print('testing different values of n')
+            for n in [1,3,5,10]:
+                print('----------- {} ----------'.format(n))
+                agent_cnn = Multistep_DQN_CNN(size, n=n, epsilon = 0.1, memory_size=20000, batch_size = 32)
+                train_validate(agent_cnn,env,epochs_train,prefix='multistep_dqn_n={}'.format(n))
+
+    if the.solver == "distributional_dqn":
+
+        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        agent_cnn = Distributional_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+
+        if the.action == "test":
+            agent_cnn.load(name_weights='./models/distributional_dqnmodel.h5',name_model='./models/distributional_dqnmodel.json')
+            print('Test of the network')
+            test(agent_cnn,env,epochs_test,prefix='distributional_dqn')
+
+        if the.action == "validate":
+            print('Begin validation')
+            agent_cnn = Distributional_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+            train_validate(agent_cnn,env,epochs_train,prefix='distributional_dqn')
 
     if the.solver == "human":
 
-	    env = Environment(grid_size=size, max_time=T,temperature=0.3)
-	    agent_cnn = Human(size, epsilon = 0.1)
+        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        agent_cnn = Human(size, epsilon = 0.1)
 
-	    if the.action == "test":
-	        print('Test of the network')
-	        test(agent_cnn,env,epochs_test,prefix='human')
+        if the.action == "test":
+            print('Test of the network')
+            test(agent_cnn,env,epochs_test,prefix='human')
 
-	    if the.action == "validate":
-	        print('Begin validation')
-	        train_validate(agent_cnn,env,epochs_train,prefix='human')
+        if the.action == "validate":
+            print('Begin validation')
+            train_validate(agent_cnn,env,epochs_train,prefix='human')
