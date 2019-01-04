@@ -91,10 +91,11 @@ class Distributional_DQN(Agent):
                     Tz = min(self.v_max, max(self.v_min, r_batch + self.discount * self.support[j]))
                     bj = (Tz - self.v_min) / self.delta_z
                     m_l, m_u = math.floor(bj), math.ceil(bj)
-                    print(m_prob.shape)
-                    print(z.shape)
-                    m_prob[a_batch][i][int(m_l)] += z[optimal_action_idxs[i]][i][j] * (m_u - bj)
-                    m_prob[a_batch][i][int(m_u)] += z[optimal_action_idxs[i]][i][j] * (bj - m_l)
+
+                    m_prob[a_batch][i][int(m_l)] += z[optimal_action_idxs[0]][0][j] * (m_u - bj)
+
+
+                    m_prob[a_batch][i][int(m_u)] += z[optimal_action_idxs[0]][0][j] * (bj - m_l)
         ######## FILL IN
         # HINT: Clip the target to avoid exploiding gradients.. -- clipping is a bit tighter
         #Clipping the target here?
