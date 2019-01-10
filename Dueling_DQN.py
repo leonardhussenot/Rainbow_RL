@@ -22,7 +22,7 @@ from Memory import *
 def createLayers():
     x = Input(shape=(5,5,3))
     
-    conv1 = Activation('relu')(Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,2))(x))
+    conv1 = Activation('relu')(Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,3))(x))
     conv2 = Activation('relu')(Conv2D(16, (1,1),strides=(1,1))(conv1))
     f = Flatten()(conv2)
     y = Activation('tanh')(Dense(5)(f))      

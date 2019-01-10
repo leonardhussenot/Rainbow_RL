@@ -15,14 +15,15 @@ from Dueling_DQN import *
 from Multistep_DQN import *
 from Distributional_DQN import *
 from Human import *
+from Noisy_DQN import *
 
 import pickle
 # parameters
 size = 13
 T = 500
 temperature = 0.3
-epochs_train = 30 # set small when debugging
-epochs_test = 1 # set small when debugging
+epochs_train = 200 # set small when debugging
+epochs_test = 5 # set small when debugging
 
 
 def test(agent,env,epochs,prefix=''):
@@ -235,6 +236,20 @@ if __name__=="__main__":
 
         env = Environment(grid_size=size, max_time=T,temperature=0.3)
         agent_cnn = Human(size, epsilon = 0.1)
+
+        if the.action == "test":
+            print('Test of the network')
+            test(agent_cnn,env,epochs_test,prefix='human')
+
+        if the.action == "validate":
+            print('Begin validation')
+            train_validate(agent_cnn,env,epochs_train,prefix='human')
+            
+            
+    if the.solver == "noisy_dqn":
+
+        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        agent_cnn = Noisy_DQN(size, epsilon = 0.0)
 
         if the.action == "test":
             print('Test of the network')
