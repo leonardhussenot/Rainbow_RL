@@ -28,9 +28,7 @@ class Agent(object):
             if np.random.rand() <= 0.05:
                 a = np.random.randint(0, self.n_action, size=1)[0]
             else:
-                a = self.learned_act(s
-            a = self.learned_act(s)
-
+                a = self.learned_act(s)
         return a
 
     def learned_act(self,s):
