@@ -8,6 +8,7 @@ import cv2
 import json
 
 from Environment import *
+from Environment_with_hunters import *
 from DQN_CNN import *
 from Prioritized_DQN import *
 from Double_DQN import *
@@ -133,8 +134,11 @@ if __name__=="__main__":
     can.add_argument("-s", "--solver", default='dqn', type=str,
             help="name of the solver")
 
-    can.add_argument("-a", "--action", default='validation', type=str,
+    can.add_argument("-a", "--action", default='validate', type=str,
             help="Test or train and validate from scratch")
+            
+    can.add_argument("-n", "--hunters", default=0, type=int,
+            help="Number of hunters")
 
     the = can.parse_args()
 
@@ -143,7 +147,7 @@ if __name__=="__main__":
 
     if the.solver == "dqn":
 
-        env = Environment(grid_size=size, max_time=T, temperature=0.3)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
         agent_cnn = DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
         if the.action == "test":
@@ -158,7 +162,7 @@ if __name__=="__main__":
 
     if the.solver == "prioritized_dqn":
 
-        env = Environment(grid_size=size, max_time=T, temperature=0.3)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
         agent_cnn = Prioritized_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
         if the.action == "test":
@@ -173,7 +177,7 @@ if __name__=="__main__":
 
     if the.solver == "double_dqn":
 
-        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
         agent_cnn = Double_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
         if the.action == "test":
@@ -187,7 +191,7 @@ if __name__=="__main__":
 
     if the.solver == "dueling_dqn":
 
-        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
         agent_cnn = Dueling_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
         if the.action == "test":
@@ -201,7 +205,7 @@ if __name__=="__main__":
 
     if the.solver == "multistep_dqn":
 
-        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
         agent_cnn = Multistep_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
         if the.action == "test":
@@ -219,7 +223,7 @@ if __name__=="__main__":
 
     if the.solver == "distributional_dqn":
 
-        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
         agent_cnn = Distributional_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
 
         if the.action == "test":
@@ -234,7 +238,7 @@ if __name__=="__main__":
 
     if the.solver == "human":
 
-        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
         agent_cnn = Human(size, epsilon = 0.1)
 
         if the.action == "test":
@@ -248,7 +252,7 @@ if __name__=="__main__":
             
     if the.solver == "noisy_dqn":
 
-        env = Environment(grid_size=size, max_time=T,temperature=0.3)
+        env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
         agent_cnn = Noisy_DQN(size, epsilon = 0.0)
 
         if the.action == "test":
