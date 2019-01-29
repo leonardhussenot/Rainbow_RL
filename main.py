@@ -24,7 +24,7 @@ size = 13
 T = 500
 temperature = 0.3
 epochs_train = 200 # set small when debugging
-epochs_test = 5 # set small when debugging
+epochs_test = 10 # set small when debugging
 
 
 def test(agent,env,epochs,prefix=''):
@@ -148,7 +148,7 @@ if __name__=="__main__":
     if the.solver == "dqn":
 
         env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
-        agent_cnn = DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        agent_cnn = DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
             agent_cnn.load(name_weights='./models/dqnmodel.h5',name_model='./models/dqnmodel.json')
@@ -163,7 +163,7 @@ if __name__=="__main__":
     if the.solver == "prioritized_dqn":
 
         env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
-        agent_cnn = Prioritized_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        agent_cnn = Prioritized_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
             agent_cnn.load(name_weights='./models/prioritized_dqnmodel.h5',name_model='./models/prioritized_dqnmodel.json')
@@ -178,7 +178,7 @@ if __name__=="__main__":
     if the.solver == "double_dqn":
 
         env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
-        agent_cnn = Double_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        agent_cnn = Double_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
             agent_cnn.load(name_weights='./models/double_dqnmodel.h5',name_model='./models/double_dqnmodel.json')
@@ -192,7 +192,7 @@ if __name__=="__main__":
     if the.solver == "dueling_dqn":
 
         env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
-        agent_cnn = Dueling_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        agent_cnn = Dueling_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
             agent_cnn.load(name_weights='./models/dueling_dqnmodel.h5',name_model='./models/dueling_dqnmodel.json')
@@ -206,7 +206,7 @@ if __name__=="__main__":
     if the.solver == "multistep_dqn":
 
         env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
-        agent_cnn = Multistep_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        agent_cnn = Multistep_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
             agent_cnn.load(name_weights='./models/multistep_dqnmodel.h5',name_model='./models/multistep_dqnmodel.json')
@@ -216,7 +216,7 @@ if __name__=="__main__":
         if the.action == "validate":
             print('Begin validation')
             print('testing different values of n')
-            for n in [1,3,5,10]:
+            for n in [2]:
                 print('----------- {} ----------'.format(n))
                 agent_cnn = Multistep_DQN_CNN(size, n=n, epsilon = 0.1, memory_size=20000, batch_size = 32)
                 train_validate(agent_cnn,env,epochs_train,prefix='multistep_dqn_n={}'.format(n))
@@ -224,7 +224,7 @@ if __name__=="__main__":
     if the.solver == "distributional_dqn":
 
         env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
-        agent_cnn = Distributional_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32)
+        agent_cnn = Distributional_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
             agent_cnn.load(name_weights='./models/distributional_dqnmodel.h5',name_model='./models/distributional_dqnmodel.json')
@@ -253,7 +253,7 @@ if __name__=="__main__":
     if the.solver == "noisy_dqn":
 
         env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
-        agent_cnn = Noisy_DQN(size, epsilon = 0.0)
+        agent_cnn = Noisy_DQN(size, epsilon = 0.0, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
             print('Test of the network')

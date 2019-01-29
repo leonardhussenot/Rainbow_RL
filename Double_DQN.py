@@ -104,10 +104,10 @@ class Double_DQN_CNN(Double_DQN):
         ###### FILL IN
         model = Sequential()
 
-        model.add(Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,self.n_state)))
+        model.add(Conv2D(16, (3,3),strides=(1,1),input_shape=(5,5,self.n_state)))
         model.add(Activation('relu'))
-        model.add(Conv2D(16, (1,1),strides=(1,1)))
-        model.add(Activation('relu'))
+        #model.add(Conv2D(16, (1,1),strides=(1,1)))
+        #model.add(Activation('relu'))
         model.add(Flatten())
         model.add(Dense(4))
         model.add(Activation('tanh'))

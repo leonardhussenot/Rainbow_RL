@@ -123,8 +123,8 @@ class Distributional_DQN_CNN(Distributional_DQN):
 
 
         state_input = Input(shape=((5,5,self.n_state)))
-        cnn_feature = Conv2D(32, (1, 1), strides=(1,1), activation='relu')(state_input)
-        cnn_feature = Conv2D(16, (1, 1), strides=(1,1), activation='relu')(cnn_feature)
+        cnn_feature = Conv2D(16, (3, 3), strides=(1,1), activation='relu')(state_input)
+        #cnn_feature = Conv2D(16, (1, 1), strides=(1,1), activation='relu')(cnn_feature)
         cnn_feature = Flatten()(cnn_feature)
         cnn_feature = Dense(4, activation='relu')(cnn_feature)
 

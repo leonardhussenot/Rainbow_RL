@@ -181,16 +181,17 @@ class Environment_with_hunters(object):
             del self.h_y[i]
                 
         self.board[self.x, self.y] = 0
-        self.board_with_hunters[:,:] = self.board
+        self.board_with_hunters[:,:] = 0
         
         for i in range(len(self.h_x)):
             self.board_with_hunters[self.h_x[i],self.h_y[i]] = -100
             
         self.trajectory[self.x,self.y] = 1
         game_over = self.t > self.max_time
-        state = np.concatenate((self.board_with_hunters.reshape(self.grid_size, self.grid_size,1),
+        state = np.concatenate((self.board.reshape(self.grid_size, self.grid_size,1),
                         self.position.reshape(self.grid_size, self.grid_size,1),
-                        self.trajectory.reshape(self.grid_size, self.grid_size,1)),axis=2)
+                        self.trajectory.reshape(self.grid_size, self.grid_size,1),
+                        self.board_with_hunters.reshape(self.grid_size, self.grid_size,1)),axis=2)
         state = state[self.x-2:self.x+3,self.y-2:self.y+3,:]
 
         return state, reward, game_over
@@ -232,16 +233,17 @@ class Environment_with_hunters(object):
         self.board[self.x,self.y] = 0
         self.t = 0
         
-        self.board_with_hunters[:,:] = self.board
+        self.board_with_hunters[:,:] = 0
         
         for i in range(self.hunters):
             self.board_with_hunters[self.h_x[i],self.h_y[i]] = -100
             
 
         global_state = np.concatenate((
-                               self.board_with_hunters.reshape(self.grid_size, self.grid_size,1),
+                               self.board.reshape(self.grid_size, self.grid_size,1),
                         self.position.reshape(self.grid_size, self.grid_size,1),
-                        self.trajectory.reshape(self.grid_size, self.grid_size,1)),axis=2)
+                        self.trajectory.reshape(self.grid_size, self.grid_size,1),
+                        self.board_with_hunters.reshape(self.grid_size, self.grid_size,1)),axis=2)
 
         state = global_state[self.x - 2:self.x + 3, self.y - 2:self.y + 3, :]
         return state

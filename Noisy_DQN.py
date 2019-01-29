@@ -12,9 +12,9 @@ from Memory import *
 def createLayers():
     x = Input(shape=(5,5,3))
     
-    conv1 = Activation('relu')(Conv2D(32, (1,1),strides=(1,1),input_shape=(5,5,3))(x))
-    conv2 = Activation('relu')(Conv2D(16, (1,1),strides=(1,1))(conv1))
-    f = Flatten()(conv2)
+    conv1 = Activation('relu')(Conv2D(16, (3,3),strides=(1,1),input_shape=(5,5,self.n_state))(x))
+    #conv2 = Activation('relu')(Conv2D(16, (1,1),strides=(1,1))(conv1))
+    f = Flatten()(conv1)
     y1 = (Dense(4)(f)) 
     zeros = Subtract()([y1,y1])
     noise = GaussianNoise(0.1)((zeros))
