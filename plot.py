@@ -24,19 +24,24 @@ with open(racine + "human",'rb') as file:
     
 with open(racine + "noisy_dqn_1",'rb') as file:
     noisy = pickle.load(file)
+    
+with open(racine + "dueling_dqn",'rb') as file:
+    dueling_dqn = pickle.load(file)
 
-legends=['dqn','prioritized_dqn','double_dqn','multistep_dqn','human','noisy']
+#legends=['dqn','prioritized_dqn','double_dqn','multistep_dqn','human','noisy','dueling_dqn']
+legends = ['w = 0', 'w = 0.5']
 
 plt.plot(dqn,linewidth=2.0)
 plt.plot(prioritized_dqn,linewidth=2.0)
-plt.plot(double_dqn,linewidth=2.0)
-plt.plot(multistep_dqn,linewidth=2.0)
-plt.plot(human,linewidth=2.0)
-plt.plot(noisy,linewidth=2.0)
+#plt.plot(double_dqn,linewidth=2.0)
+#plt.plot(multistep_dqn,linewidth=2.0)
+#plt.plot(human,linewidth=2.0)
+#plt.plot(noisy,linewidth=2.0)
+#plt.plot(dueling_dqn,linewidth=2.0)
 
 plt.legend(legends)
 
-plt.xlabel('training iterations')
+plt.xlabel('training iterations (x10)')
 plt.ylabel('test performances')
 
 plt.show()
@@ -62,7 +67,7 @@ plt.plot(multistep_dqn5,linewidth=2.0)
 
 plt.legend(legends)
 
-plt.xlabel('training iterations')
+plt.xlabel('training iterations (x10)')
 plt.ylabel('test performances')
 plt.title('DQN Multistep')
 
@@ -89,9 +94,9 @@ plt.plot(noisy2,linewidth=2.0)
 
 plt.legend(legends)
 
-plt.xlabel('training iterations')
+plt.xlabel('training iterations (x10)')
 plt.ylabel('test performances')
-plt
+plt.title('noisy nets')
 
 plt.show()
 
