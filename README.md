@@ -13,8 +13,8 @@ python3 main.py --s dqn --a validate
 
 ### DoubleDQN
 
-![](gif/doubl_dqn9.gif)
+![](gif/double_dqn9.gif)
 
 ### PrioritizedDQN
 
-![](gif/doubl_dqn9.gif)
+![](gif/prioritized_dqn190.gif)
