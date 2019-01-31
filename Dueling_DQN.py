@@ -21,15 +21,25 @@ from Memory import *
 
 def createLayers():
     x = Input(shape=(5,5,3))
-    
+
     conv1 = Activation('relu')(Conv2D(16, (3,3),strides=(1,1),input_shape=(5,5,self.n_state))(x))
     #conv2 = Activation('relu')(Conv2D(16, (1,1),strides=(1,1))(conv1))
     f = Flatten()(conv1)
-    y = Activation('tanh')(Dense(5)(f))      
-    z = Lambda(lambda a: K.expand_dims(a[:, 0], axis=-1) + a[:, 1:] - K.mean(a[:, 1:], keepdims=True),
-                   output_shape=(4,))(y)
+    y = Activation('tanh')(Dense(5)(f))
+
+    ## Calculating V(s)
+    value_fc = Activation('relu')(Dense(5)(y))
+    value = Dense(1)(value_fc)
+
+    ## Calculating A(s,a)
+    advantage_fc = Activation('relu')(Dense(5)(y))
+    advantage = Dense(4)(advantage_fc)
+
+    z = value + (advantage - K.mean(advantage, axis=1, keepdims=True))
+    #z = Lambda(lambda a: K.expand_dims(a[:, 0], axis=-1) + a[:, 1:] - K.mean(a[:, 1:], keepdims=True),
+    #               output_shape=(4,))(y)
     return x, z
-                   
+
 
 
 
@@ -92,7 +102,7 @@ class Dueling_DQN(Agent):
         model.load_weights('models'+name_weights)
         model.compile("sgd", "mse")
         self.model = model
-        
+
 class Dueling_DQN_CNN(Dueling_DQN):
     def __init__(self, *args,**kwargs):
         super(Dueling_DQN_CNN, self).__init__(*args,**kwargs)
