@@ -23,10 +23,11 @@ def dueling_loss(l):
     advantage = l[1]
     return value + (advantage - K.mean(advantage, axis=1, keepdims=True))
 
-def createLayers():
-    x = Input(shape=(5,5,3))
+def createLayers(depth):
+    x = Input(shape=(5,5,depth))
+    
+    conv1 = Activation('relu')(Conv2D(16, (3,3),strides=(1,1),input_shape=(5,5,depth))(x))
 
-    conv1 = Activation('relu')(Conv2D(16, (3,3),strides=(1,1),input_shape=(5,5,3))(x))
     #conv2 = Activation('relu')(Conv2D(16, (1,1),strides=(1,1))(conv1))
     f = Flatten()(conv1)
     y = Activation('tanh')(Dense(5)(f))
@@ -111,7 +112,7 @@ class Dueling_DQN_CNN(Dueling_DQN):
     def __init__(self, *args,**kwargs):
         super(Dueling_DQN_CNN, self).__init__(*args,**kwargs)
 
-        x, z = createLayers()
+        x, z = createLayers(self.n_state)
         model = Model(input=x, output=z)
 
 

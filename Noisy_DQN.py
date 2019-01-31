@@ -9,15 +9,15 @@ from keras import backend as K
 from DQN import DQN
 from Memory import *
 
-def createLayers():
-    x = Input(shape=(5,5,3))
+def createLayers(depth):
+    x = Input(shape=(5,5,depth))
     
-    conv1 = Activation('relu')(Conv2D(16, (3,3),strides=(1,1),input_shape=(5,5,self.n_state))(x))
+    conv1 = Activation('relu')(Conv2D(16, (3,3),strides=(1,1),input_shape=(5,5,depth))(x))
     #conv2 = Activation('relu')(Conv2D(16, (1,1),strides=(1,1))(conv1))
     f = Flatten()(conv1)
     y1 = (Dense(4)(f)) 
     zeros = Subtract()([y1,y1])
-    noise = GaussianNoise(0.1)((zeros))
+    noise = GaussianNoise(0.5)((zeros))
     perturbation = Multiply()([Dense(4)(f),noise])
     #perturbation = noise
     #perturbation = zeros
@@ -31,7 +31,7 @@ class Noisy_DQN(DQN):
     def __init__(self, *args,**kwargs):
         super(Noisy_DQN, self).__init__(*args,**kwargs)
 
-        x, z = createLayers()
+        x, z = createLayers(self.n_state)
         model = Model(input=x, output=z)
 
 
