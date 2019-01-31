@@ -18,11 +18,15 @@ from Agent import *
 from Memory import *
 
 
+def dueling_loss(l):
+    value = l[0]
+    advantage = l[1]
+    return value + (advantage - K.mean(advantage, axis=1, keepdims=True))
 
 def createLayers():
     x = Input(shape=(5,5,3))
 
-    conv1 = Activation('relu')(Conv2D(16, (3,3),strides=(1,1),input_shape=(5,5,self.n_state))(x))
+    conv1 = Activation('relu')(Conv2D(16, (3,3),strides=(1,1),input_shape=(5,5,3))(x))
     #conv2 = Activation('relu')(Conv2D(16, (1,1),strides=(1,1))(conv1))
     f = Flatten()(conv1)
     y = Activation('tanh')(Dense(5)(f))
@@ -35,16 +39,16 @@ def createLayers():
     advantage_fc = Activation('relu')(Dense(5)(y))
     advantage = Dense(4)(advantage_fc)
 
-    z = value + (advantage - K.mean(advantage, axis=1, keepdims=True))
+    z = Lambda(dueling_loss, output_shape=(4,))([value, advantage])
     #z = Lambda(lambda a: K.expand_dims(a[:, 0], axis=-1) + a[:, 1:] - K.mean(a[:, 1:], keepdims=True),
-    #               output_shape=(4,))(y)
+    #               output_shape=(4,)) (y)
     return x, z
 
 
 
 
 class Dueling_DQN(Agent):
-    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16,n_state=3):
+    def __init__(self, grid_size,  epsilon = 0.1, memory_size=100, batch_size = 16, n_state=3):
         super(Dueling_DQN, self).__init__(epsilon = epsilon)
 
         # Discount for Q learning
