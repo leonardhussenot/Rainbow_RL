@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 #========= Graph 1 : Comparaion des différents modeles sur 200 itérations 
 
-racine = './models_graph1/'
+racine = './models/'
 
 with open(racine + "dqn",'rb') as file:
     dqn = pickle.load(file)
@@ -28,16 +28,15 @@ with open(racine + "noisy_dqn_1",'rb') as file:
 with open(racine + "dueling_dqn",'rb') as file:
     dueling_dqn = pickle.load(file)
 
-#legends=['dqn','prioritized_dqn','double_dqn','multistep_dqn','human','noisy','dueling_dqn']
-legends = ['w = 0', 'w = 0.5']
+legends=['dqn','prioritized_dqn','double_dqn','multistep_dqn','human','noisy','dueling_dqn']
 
 plt.plot(dqn,linewidth=2.0)
 plt.plot(prioritized_dqn,linewidth=2.0)
-#plt.plot(double_dqn,linewidth=2.0)
-#plt.plot(multistep_dqn,linewidth=2.0)
-#plt.plot(human,linewidth=2.0)
-#plt.plot(noisy,linewidth=2.0)
-#plt.plot(dueling_dqn,linewidth=2.0)
+plt.plot(double_dqn,linewidth=2.0)
+plt.plot(multistep_dqn,linewidth=2.0)
+plt.plot(human,linewidth=2.0)
+plt.plot(noisy,linewidth=2.0)
+plt.plot(dueling_dqn,linewidth=2.0)
 
 plt.legend(legends)
 
@@ -46,9 +45,9 @@ plt.ylabel('test performances')
 
 plt.show()
 
-#========= Graph 3 : Multistep n=2,3,5
+#========= Graph 2 : Multistep n=2,3,5
 
-racine = './models_graph3/'
+racine = './models/'
 
 with open(racine + "multistep_dqn_n=2",'rb') as file:
     multistep_dqn2 = pickle.load(file)
@@ -73,9 +72,9 @@ plt.title('DQN Multistep')
 
 plt.show()
 
-#========= Graph 4 : NoisyNets std=0,1,2
+#========= Graph 3 : NoisyNets std=0,1,2
 
-racine = './models_graph4/'
+racine = './models/'
 
 with open(racine + "noisy_dqn_1",'rb') as file:
     noisy1 = pickle.load(file)
@@ -100,7 +99,7 @@ plt.title('noisy nets')
 
 plt.show()
 
-#=============== Graph 5: Test on a 25x25 grid
+#=============== Graph 4: Test on a 25x25 grid
 
 dqn = [40,70.5,63,31.5,43,39.5,66,60,48,61.5]
 double_dqn = [58,70,20,60,48.5,68,46,61.5,63,81.5]
