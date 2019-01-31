@@ -31,6 +31,8 @@ def test(agent,env,epochs,prefix=''):
     # Number of won games
     score = 0
 
+    scores = []
+    
     for e in range(epochs):
     ##### FILL IN HERE
     # At each epoch, we restart to a fresh game and get the initial state
@@ -64,10 +66,13 @@ def test(agent,env,epochs,prefix=''):
 
         # Update stats
         score = score + win-lose
+        scores.append(win-lose)
 
         print("Win/lose count {}/{}. Average score ({})"
               .format(win, lose, score/(1+e)))
     print('Final score: '+str(score/epochs))
+    print('Final variance :'+str(np.std(scores)))
+    print(scores)
     return score/epochs
 
 
@@ -151,7 +156,7 @@ if __name__=="__main__":
         agent_cnn = DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
-            agent_cnn.load(name_weights='./models/dqnmodel.h5',name_model='./models/dqnmodel.json')
+            agent_cnn.load(name_weights='/dqnmodel.h5',name_model='/dqnmodel.json')
             print('Test of the network')
             test(agent_cnn,env,epochs_test,prefix='dqn')
 
@@ -166,7 +171,7 @@ if __name__=="__main__":
         agent_cnn = Prioritized_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
-            agent_cnn.load(name_weights='./models/prioritized_dqnmodel.h5',name_model='./models/prioritized_dqnmodel.json')
+            agent_cnn.load(name_weights='/prioritized_dqnmodel.h5',name_model='/prioritized_dqnmodel.json')
             print('Test of the network')
             test(agent_cnn,env,epochs_test,prefix='prioritized_dqn')
 
@@ -181,7 +186,7 @@ if __name__=="__main__":
         agent_cnn = Double_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
-            agent_cnn.load(name_weights='./models/double_dqnmodel.h5',name_model='./models/double_dqnmodel.json')
+            agent_cnn.load(name_weights='/double_dqnmodel.h5',name_model='/double_dqnmodel.json')
             print('Test of the network')
             test(agent_cnn,env,epochs_test,prefix='double_dqn')
 
@@ -195,7 +200,7 @@ if __name__=="__main__":
         agent_cnn = Dueling_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
-            agent_cnn.load(name_weights='./models/dueling_dqnmodel.h5',name_model='./models/dueling_dqnmodel.json')
+            agent_cnn.load(name_weights='/dueling_dqnmodel.h5',name_model='/dueling_dqnmodel.json')
             print('Test of the network')
             test(agent_cnn,env,epochs_test,prefix='dueling_dqn')
 
@@ -209,16 +214,16 @@ if __name__=="__main__":
         agent_cnn = Multistep_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
-            agent_cnn.load(name_weights='./models/multistep_dqnmodel.h5',name_model='./models/multistep_dqnmodel.json')
+            agent_cnn.load(name_weights='/multistep_dqn_n=3model.h5',name_model='/multistep_dqn_n=3model.json')
             print('Test of the network')
             test(agent_cnn,env,epochs_test,prefix='multistep_dqn')
 
         if the.action == "validate":
             print('Begin validation')
             print('testing different values of n')
-            for n in [2]:
+            for n in [5]:
                 print('----------- {} ----------'.format(n))
-                agent_cnn = Multistep_DQN_CNN(size, n=n, epsilon = 0.1, memory_size=20000, batch_size = 32)
+                agent_cnn = Multistep_DQN_CNN(size, n=n, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
                 train_validate(agent_cnn,env,epochs_train,prefix='multistep_dqn_n={}'.format(n))
 
     if the.solver == "distributional_dqn":
@@ -227,7 +232,7 @@ if __name__=="__main__":
         agent_cnn = Distributional_DQN_CNN(size, epsilon = 0.1, memory_size=20000, batch_size = 32, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
-            agent_cnn.load(name_weights='./models/distributional_dqnmodel.h5',name_model='./models/distributional_dqnmodel.json')
+            agent_cnn.load(name_weights='/distributional_dqnmodel.h5',name_model='/distributional_dqnmodel.json')
             print('Test of the network')
             test(agent_cnn,env,epochs_test,prefix='distributional_dqn')
 
@@ -253,12 +258,13 @@ if __name__=="__main__":
     if the.solver == "noisy_dqn":
 
         env = Environment(grid_size=size, max_time=T, temperature=0.3) if the.hunters == 0 else Environment_with_hunters(grid_size=size, max_time=T, temperature=0.3, hunters=the.hunters)
-        agent_cnn = Noisy_DQN(size, epsilon = 0.0, n_state= 3 if the.hunters==0 else 4)
+        agent_cnn = Noisy_DQN(size, epsilon = 0.1, n_state= 3 if the.hunters==0 else 4)
 
         if the.action == "test":
+            agent_cnn.load(name_weights='/noisy_dqnmodel.h5',name_model='/noisy_dqnmodel.json')
             print('Test of the network')
-            test(agent_cnn,env,epochs_test,prefix='human')
+            test(agent_cnn,env,epochs_test,prefix='noisy_dqn')
 
         if the.action == "validate":
             print('Begin validation')
-            train_validate(agent_cnn,env,epochs_train,prefix='human')
+            train_validate(agent_cnn,env,epochs_train,prefix='noisy_dqn')
