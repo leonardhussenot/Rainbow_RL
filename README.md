@@ -16,15 +16,19 @@ python3 main.py --s [solver] –-a [action] –-n [number of hunters]
 
 At every test and train, videos of games (mp4), models weights (json and h5) and performance vector (pkl) will automatically be saved in the repository
  
+To plot some analysis curves :
 
-### DQN with cats (hunters)
+python3 plot.py
+
+
+### Example of DQN agent in a 10-cats (hunters) environement
 
 ![](gif/dqn180.gif)
 
-### DoubleDQN
+### Example of DoubleDQN agent in a 25x25 grid 
 
 ![](gif/double_dqn9.gif)
 
-### PrioritizedDQN
+### Example of PrioritizedDQN agent in a 13x13 grid
 
 ![](gif/prioritized_dqn190.gif)
