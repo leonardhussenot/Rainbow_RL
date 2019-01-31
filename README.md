@@ -6,4 +6,15 @@ To train from scratch :
 python3 main.py --s dqn --a validate
 
 
-![](gif/distributional_dqn0.gif)
+
+### DQN with cats (hunters)
+
+![](gif/dqn180.gif)
+
+### DoubleDQN
+
+![](gif/doubl_dqn9.gif)
+
+### PrioritizedDQN
+
+![](gif/doubl_dqn9.gif)
