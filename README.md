@@ -6,4 +6,4 @@ To train from scratch :
 python3 main.py --s dqn --a validate
 
 
-![](gif/giphy.gif)
+![](gif/distributional_dqn0.gif)
