@@ -1,11 +1,11 @@
 # Rainbow_RL
-Reinforcement Learning Project implementing DQN and variations, based on
+Reinforcement Learning Project implementing DQN and variations on a simple environment, training on basic CPU, based on
 [Rainbow: Combining Improvements in Deep Reinforcement Learning](https://arxiv.org/abs/1710.02298)
 
 ## Environment
 
 A mouse (white square in the examples below) moves on a grid. It only sees the
-5x5 grid around itself and has to eat as much cheese (+0.5 reward, red squares in examples),
+5x5 grid around itself and has to eat as much cheese (+0.5 reward, red squares in examples) as possible,
 avoiding the poisons (-1 reward, blue squares in examples).
 We also introduced moving cats (-100 reward, green squares in examples), that is needs to avoid.
 
