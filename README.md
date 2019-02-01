@@ -2,6 +2,14 @@
 Reinforcement Learning Project implementing DQN and variations, inspired by
 Rainbow: Combining Improvements in Deep Reinforcement Learning ‎(arXiv:1710.02298)
 
+## Environment
+
+A mouse (white square in the examples below) moves on a grid. It only sees the
+5x5 grid around itself and has to eat as much cheese (+0.5 reward, red squares in examples),
+avoiding the poisons (-1 reward, blue squares in examples).
+We also introduced moving cats (-100 reward, green squares in examples), that is needs to avoid.
+
+
 ## Command lines
 To train from scratch or test :
 ```shell
@@ -24,13 +32,13 @@ python3 plot.py
 
 ## Examples
 
-### Example of DQN agent in a 10-cats (hunters) environment
-
-![](gif/dqn180.gif)
-
 ### Example of DoubleDQN agent in a 25x25 grid
 
 ![](gif/double_dqn9.gif)
+
+### Example of DQN agent in a 10-cats (hunters) environment
+
+![](gif/dqn180.gif)
 
 ### Example of PrioritizedDQN agent in a 13x13 grid
 
