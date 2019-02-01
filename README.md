@@ -16,11 +16,11 @@ To train from scratch or test :
 python3 main.py --s [solver] -a [action] -n [number of hunters]
 ```
 
-[solver] can be : "dqn", "double_dqn", "dueling_dqn", "prioritized_dqn", "distributional_dqn", "noisy_dqn", "multistep_dqn" or "human"
+* [solver] can be : "dqn", "double_dqn", "dueling_dqn", "prioritized_dqn", "distributional_dqn", "noisy_dqn", "multistep_dqn" or "human"
 
-[action] can be : "test", to test an already existing model or "validate", to train and test a model from scratch
+* [action] can be : "test", to test an already existing model or "validate", to train and test a model from scratch
 
-[number of hunters] is be any non-negative integer
+* [number of hunters] is be any non-negative integer
 
 
 At every test and train, videos of games (.mp4), models weights (.json and .h5) and performance vector (.pkl) will automatically be saved in the repository
