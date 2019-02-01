@@ -1,6 +1,6 @@
 # Rainbow_RL
-Reinforcement Learning Project implementing DQN and variations, inspired by
-Rainbow: Combining Improvements in Deep Reinforcement Learning ‎(arXiv:1710.02298)
+Reinforcement Learning Project implementing DQN and variations, based on
+[Rainbow: Combining Improvements in Deep Reinforcement Learning](https://arxiv.org/abs/1710.02298)
 
 ## Environment
 
